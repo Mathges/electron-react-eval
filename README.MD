@@ -27,17 +27,17 @@ Cela dit l'utilisateur pourra:
 
 ### 1ère partie
 
-[ ] Setup appli electron  
-[ ] Récupération des métriques (utlisation d'un package type os-utils)
+- [ ] Setup appli electron  
+- [ ] Récupération des métriques (utlisation d'un package type os-utils)
 
 ### 2ème partie
 
-[ ] Création des composants (graphiques, jauges...)
+- [ ] Création des composants (graphiques, jauges...)
 
 ### 3ème partie
 
-[ ] création de thèmes (2 ou 3 en POC)
+- [ ] création de thèmes (2 ou 3 en POC)
 
 #### 4ème partie
 
-[ ] mise en place de la possibilité de mettre en place l'app en "wallpaper"
+- [ ] mise en place de la possibilité de mettre en place l'app en "wallpaper"
