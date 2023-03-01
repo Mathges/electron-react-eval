@@ -2,6 +2,11 @@
 
 L'application consiste en un dahsboard qui va récupérer diverses metriques et les exposer à l'utilisateur. Si possible, l'app tournera à la place du fond d'écran.
 
+## IMPORTANT
+
+Les métriques ne sont pas forcément accessibles en fonction de l'OS etc... Il se peut donc que certaines valeurs ne s'affichent pas. Pour plus d'infos, checker [ici](https://systeminformation.io/).
+Les métriques ne fonctionnant pas sur mon environnement seront indiquées dans la liste plus bas, en guise de rappel pour plus tard.
+
 ## Métriques
 
 Dans un premier temps, les métriques surveillées seront:
@@ -28,7 +33,22 @@ Cela dit l'utilisateur pourra:
 ### 1ère partie
 
 - [x] Setup appli electron  
-- [ ] Récupération des métriques (utlisation d'un package type os-utils)
+- [ ] Récupération des métriques (utlisation d'un package type os-utils):
+    POC
+    - [x] cpu-current-percentage
+    - [x] cpu-temperature (/!\ renvoie null pour cause d'incompatibilité, à vérifier plus tard)
+    - [ ] cpu-overtime
+    - [ ] ram-current-percentage
+    - [ ] ram-overtime
+
+    BONUSES
+    - [ ] network-input-overtime
+    - [ ] network-output-overtime
+    - [ ] disk-input-overtime
+    - [ ] disk-output-overtime
+    - [ ] disks-usage
+    - [ ] graphics-current-percentage
+    - [ ] graphics-overtime
 
 ### 2ème partie
 

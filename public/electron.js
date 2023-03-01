@@ -1,5 +1,5 @@
 // Module to control the application lifecycle and the native browser window.
-const { app, BrowserWindow, protocol } = require("electron");
+const { app, BrowserWindow, protocol, ipcMain } = require("electron");
 const path = require("path");
 const url = require("url");
 const {attach, detach, refresh} = require("electron-as-wallpaper");
@@ -18,10 +18,35 @@ function createWindow(width, height) {
     // communicate between node-land and browser-land.
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      nodeIntegration: false,
-      contextIsolation: true,
-      enableRemoteModule: false
+      nodeIntegration: true
     },
+  });
+
+  ipcMain.on('get-cpu-percent', event => {
+    si.currentLoad().then((response) => {
+      event.reply('cpu-percent', {
+        cpuCurrent: response
+      });
+    });
+  });
+
+  ipcMain.on('get-cpu-temperature', event => {
+    si.cpuTemperature().then((response) => {
+      event.reply('cpu-temperature', {
+        cpuCurrentTemperature: response
+      });
+    });
+  });
+
+  ipcMain.on('get-ram-percent', event => {
+    si.mem().then((response) => {
+      const usage = response.used;
+      const max = response.total;
+      const percentage = Math.ceil(usage / max * 100);
+      event.reply('ram-percent', {
+        ramCurrent: percentage
+      });
+    });
   });
 
   // In production, set the initial browser path to the local bundle generated

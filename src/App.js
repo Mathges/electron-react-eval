@@ -1,5 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
+import SingleMetric from './components/SingleMetric/SingleMetric';
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
         >
           Learn React
         </a>
+        <SingleMetric metricType="cpu" metricUnit="percent" metricTitle="CPU - Usage" />
+        <SingleMetric metricType="cpu" metricUnit="temperature" metricTitle="CPU - Temperature" />
+        <SingleMetric metricType="ram" metricUnit="percent" metricTitle="RAM -Usage" />
       </header>
     </div>
   );
