@@ -21,10 +21,18 @@ const CpuUsage = ({metricType, metricUnit, metricTitle}) => {
         }
     }, []);
 
+    let symbol;
+    if (metricUnit === "percent") {
+        symbol = '%';
+    }
+    if (metricUnit === "temperature") {
+        symbol = '°C';
+    }
+    
     return (
         <div>
             <h4>{metricTitle}</h4>
-            <div>{metric}</div>
+            <div>{`${metric} ${symbol}`}</div>
         </div>
     );
 }

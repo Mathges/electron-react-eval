@@ -12,7 +12,7 @@ process.once("loaded", () => {
     requestCPUUsagePercent: () => ipcRenderer.send('get-cpu-percent'),
     getCPUUsagePercent: setState => {
       ipcRenderer.on('cpu-percent', (event, info) => {
-        const currentLoad = `${Math.ceil(info?.cpuCurrent?.currentLoad)} %`;
+        const currentLoad = Math.ceil(info?.cpuCurrent?.currentLoad);
         setState(currentLoad);
       });
     },
@@ -25,7 +25,7 @@ process.once("loaded", () => {
         if (info?.cpuCurrentTemperature?.main === null) {
           currentTemperature = 'NC'
         } else {
-          currentTemperature = `${info?.cpuCurrentTemperature?.main} °C`;
+          currentTemperature = info?.cpuCurrentTemperature?.main;
         }      
         setState(currentTemperature);
       });
@@ -35,7 +35,7 @@ process.once("loaded", () => {
     requestRAMUsagePercent: () => ipcRenderer.send('get-ram-percent'),
     getRAMUsagePercent: setState => {
       ipcRenderer.on('ram-percent', (event, info) => {
-        const currentRAMUsage = `${info?.ramCurrent} %`;
+        const currentRAMUsage = info?.ramCurrent;
         setState(currentRAMUsage);
       });
     },

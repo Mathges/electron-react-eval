@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import SingleMetric from './components/SingleMetric/SingleMetric';
+import OvertimeMetric from './components/OvertimeMetric/OverTimeMetric';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <SingleMetric metricType="cpu" metricUnit="percent" metricTitle="CPU - Usage" />
         <SingleMetric metricType="cpu" metricUnit="temperature" metricTitle="CPU - Temperature" />
         <SingleMetric metricType="ram" metricUnit="percent" metricTitle="RAM -Usage" />
+        <OvertimeMetric metricType="cpu" metricUnit="percent" />
       </header>
     </div>
   );
