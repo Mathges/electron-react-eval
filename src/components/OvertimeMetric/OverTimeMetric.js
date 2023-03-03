@@ -52,7 +52,6 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
                     y = drawArea.height - (metricArray[i] * (drawArea.height / 100));
                 }               
                 ctx.lineTo(x, y);
-                console.log(x, y)
             }
             ctx.stroke();
         }
@@ -68,8 +67,7 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
     }, [metricArray]);
 
     return (
-        <canvas ref={canvas} height={200} width={400} style={{ border: '1px solid white', backgroundColor: 'white' }}>
-            
+        <canvas ref={canvas} height={200} width={400} style={{ border: '1px solid white', backgroundColor: 'white' }}>           
         </canvas>
     );
 }

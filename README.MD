@@ -33,13 +33,13 @@ Cela dit l'utilisateur pourra:
 ### 1ère partie
 
 - [x] Setup appli electron  
-- [ ] Récupération des métriques (utlisation d'un package type os-utils):
+- [x] Récupération des métriques (utlisation d'un package type os-utils):
     POC
     - [x] cpu-current-percentage
     - [x] cpu-temperature (/!\ renvoie null pour cause d'incompatibilité, à vérifier plus tard)
-    - [ ] cpu-overtime
-    - [ ] ram-current-percentage
-    - [ ] ram-overtime
+    - [x] cpu-overtime
+    - [x] ram-current-percentage
+    - [x] ram-overtime
 
     BONUSES
     - [ ] network-input-overtime
