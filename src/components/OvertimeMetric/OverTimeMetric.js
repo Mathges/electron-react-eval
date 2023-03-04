@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useDefineCurrentMetric from '../../hooks/useDefineMetric';
-import { Graph } from './Style';
+import { Container, Values, Title, Legend, Graph } from './Style';
+import draw from './utils';
 // https://developer.mozilla.org/fr/docs/Web/HTML/Element/canvas
 // https://developer.mozilla.org/fr/docs/Web/API/Canvas_API
 
@@ -14,7 +15,7 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
     const timerRef = useRef(null);
     const {getMetric, metric} = useDefineCurrentMetric(metricType, metricUnit);
     const canvas = useRef();
-
+    const legend = useRef();
 
     useEffect(() => {
         clearInterval(timerRef.current);
@@ -31,49 +32,10 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
             }
             setMetricArray(newMetrics);
         }
-        // setting canvas (thanks GPT for the help, even if I improved it a bit )
-        const draw = () => {
-            const drawArea = canvas.current;
-            const ctx = drawArea.getContext('2d');
-            ctx.strokeStyle = '#fa913c';
-            
-            // Create a linear gradient from the top to the bottom of the canvas
-            const gradient = ctx.createLinearGradient(0, 0, 0, drawArea.height);
-            gradient.addColorStop(0, 'rgba(250, 145, 60, 0.6)');
-            gradient.addColorStop(1, 'rgba(250, 145, 60, 0.2)');
-          
-            // Clear area
-            ctx.clearRect(0, 0, drawArea.width, drawArea.height);
-          
-            // Start draw
-            ctx.beginPath();
-            
-            // Move to the first point
-            let firstX = drawArea.width;
-            let firstY = drawArea.height - (metricArray[metricArray.length - 1] * (drawArea.height / 100));
-            ctx.moveTo(firstX, firstY);
-            
-            // Draw lines
-            for (let i = metricArray.length - 2; i >= 0; i--) {
-              let x = drawArea.width - ((metricArray.length - 1 - i) * 20);
-              let y = drawArea.height - (metricArray[i] * (drawArea.height / 100));
-              ctx.lineTo(x, y);
-            }
-            
-            // Close the path
-            ctx.lineTo(drawArea.width, drawArea.height);
-            ctx.lineTo(firstX, firstY);
-            ctx.closePath();
-            
-            // Fill with gradient
-            ctx.fillStyle = gradient;
-            ctx.fill();
-            
-            // Stroke the path
-            ctx.stroke();
-          };
 
-        draw();
+
+        draw(canvas, metricArray);
+
         const updateInterval = setInterval(updateMetrics, 1000);
 
         return () => {
@@ -83,9 +45,39 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
         }
     }, [metricArray]);
 
+    useEffect(() => {
+        // Draw the legend
+        const legendDrawArea = legend.current;
+        const legendCtx = legendDrawArea.getContext('2d');
+        legendCtx.font = '12px sans-serif white';
+        legendCtx.textBaseline = 'middle';
+        legendCtx.textAlign = 'right';
+        legendCtx.fillStyle = '#fff'
+        for (let i = 0; i <= 100; i += 20) {
+          let y = (1 - i / 100) * (legendDrawArea.height);
+
+          if (y === 200) {
+            y = 196;
+          } else if (y === 0) {
+            y = 6
+          }
+          const text = `${i}%`;
+          legendCtx.fillText(text, legendDrawArea.width - 5, y);
+        }
+      }, []);
+
     return (
-        <Graph ref={canvas} height={200} width={400}>           
-        </Graph>
+        <Container>
+            <Title>{metricTitle}</Title>
+            <Graph >
+
+                <Legend ref={legend} height={200} width={40} style={{marginRight: 10}}>
+                </Legend>
+                <Values ref={canvas} height={200} width={400}>
+                </Values>
+            </Graph>
+        </Container>
+        
     );
 }
 

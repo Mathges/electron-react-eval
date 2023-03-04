@@ -8,10 +8,10 @@ function App() {
       <body class="App-body">
         <SingleMetric metricType="cpu" metricUnit="percent" metricTitle="CPU - Usage" />
         <SingleMetric metricType="cpu" metricUnit="temperature" metricTitle="CPU - Temperature" />
-        <SingleMetric metricType="ram" metricUnit="percent" metricTitle="RAM -Usage" />
-        <OvertimeMetric metricType="cpu" metricUnit="percent" />
+        <SingleMetric metricType="ram" metricUnit="percent" metricTitle="RAM - Usage" />
+        <OvertimeMetric metricType="cpu" metricUnit="percent" metricTitle="CPU- Usage" />
         <br />
-        <OvertimeMetric metricType="ram" metricUnit="percent" />
+        <OvertimeMetric metricType="ram" metricUnit="percent" metricTitle="RAM - Usage"/>
       </body>
     </div>
   );
