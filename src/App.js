@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import SingleMetric from './components/SingleMetric/SingleMetric';
 import OvertimeMetric from './components/OvertimeMetric/OverTimeMetric';

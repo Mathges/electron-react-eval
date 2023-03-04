@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import useDefineCurrentMetric from '../../hooks/useDefineMetric';
+import { Container, Title, MetricValue } from './Style';
 
 const CpuUsage = ({metricType, metricUnit, metricTitle}) => {
     const {
@@ -30,10 +31,10 @@ const CpuUsage = ({metricType, metricUnit, metricTitle}) => {
     }
     
     return (
-        <div>
-            <h4>{metricTitle}</h4>
-            <div>{`${metric} ${symbol}`}</div>
-        </div>
+        <Container>
+            <Title>{metricTitle}</Title>
+            <MetricValue>{`${metric} ${symbol}`}</MetricValue>
+        </Container>
     );
 }
 
