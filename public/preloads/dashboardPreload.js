@@ -7,6 +7,10 @@ const { contextBridge, ipcRenderer } = require("electron");
 // They'll be accessible at "window.versions".
 process.once("loaded", () => {
   contextBridge.exposeInMainWorld("versions", process.versions);
+  contextBridge.exposeInMainWorld("setters", {
+    attachDashboard: () => ipcRenderer.send('attach-dashboard'),
+    detachDashboard: () => ipcRenderer.send('detach-dashboard'),
+  });
   contextBridge.exposeInMainWorld("metrics", {
     // CPU - percent
     requestCPUUsagePercent: () => ipcRenderer.send('get-cpu-percent'),

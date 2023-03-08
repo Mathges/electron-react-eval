@@ -45,4 +45,25 @@ const fillArea = (drawArea, ctx, firstX, firstY) => {
     ctx.fill();
 }
 
-export default draw;
+const drawLegend = (canvas) => {
+    // Draw the legend
+    const legendDrawArea = canvas.current;
+    const legendCtx = legendDrawArea.getContext('2d');
+    legendCtx.font = '12px sans-serif white';
+    legendCtx.textBaseline = 'middle';
+    legendCtx.textAlign = 'right';
+    legendCtx.fillStyle = '#d0d0d0';
+    for (let i = 0; i <= 100; i += 20) {
+        let y = (1 - i / 100) * (legendDrawArea.height);
+
+        if (y === 200) {
+        y = 196;
+        } else if (y === 0) {
+        y = 6
+        }
+        const text = `${i}%`;
+        legendCtx.fillText(text, legendDrawArea.width - 5, y);
+    }
+}
+
+export {draw, drawLegend};

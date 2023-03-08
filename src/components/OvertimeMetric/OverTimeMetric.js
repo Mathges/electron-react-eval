@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import useDefineCurrentMetric from '../../hooks/useDefineMetric';
 import { Container, Values, Title, Legend, Graph } from './Style';
-import draw from './utils';
+import {draw, drawLegend} from './utils';
 // https://developer.mozilla.org/fr/docs/Web/HTML/Element/canvas
 // https://developer.mozilla.org/fr/docs/Web/API/Canvas_API
 
@@ -46,38 +46,19 @@ const OvertimeMetric = ({metricType, metricUnit, metricTitle}) => {
     }, [metricArray]);
 
     useEffect(() => {
-        // Draw the legend
-        const legendDrawArea = legend.current;
-        const legendCtx = legendDrawArea.getContext('2d');
-        legendCtx.font = '12px sans-serif white';
-        legendCtx.textBaseline = 'middle';
-        legendCtx.textAlign = 'right';
-        legendCtx.fillStyle = '#fff'
-        for (let i = 0; i <= 100; i += 20) {
-          let y = (1 - i / 100) * (legendDrawArea.height);
-
-          if (y === 200) {
-            y = 196;
-          } else if (y === 0) {
-            y = 6
-          }
-          const text = `${i}%`;
-          legendCtx.fillText(text, legendDrawArea.width - 5, y);
-        }
-      }, []);
+        drawLegend(legend);
+    }, []);
 
     return (
         <Container>
             <Title>{metricTitle}</Title>
             <Graph >
-
                 <Legend ref={legend} height={200} width={40} style={{marginRight: 10}}>
                 </Legend>
                 <Values ref={canvas} height={200} width={400}>
                 </Values>
             </Graph>
-        </Container>
-        
+        </Container>       
     );
 }
 

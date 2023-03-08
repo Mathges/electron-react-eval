@@ -1,23 +1,75 @@
 // Module to control the application lifecycle and the native browser window.
-const { app, BrowserWindow, protocol, ipcMain } = require("electron");
+const { app, BrowserWindow, protocol, ipcMain, getAllWindows } = require("electron");
 const path = require("path");
 const url = require("url");
-const {attach, detach, refresh} = require("electron-as-wallpaper");
 const si = require('systeminformation');
+const {attach, detach, refresh} = require("electron-as-wallpaper");
 
-// Create the native browser window.
-function createWindow(width, height) {
+const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
-    width: width,
-    height: height,
-    // TODO: remove comment while making this run as wallpaper
+    width: 600,
+    height: 400,
     // transparent: true,
     // frame: false,
-    // skipTaskbar: true,
+    //skipTaskbar: true,
+  
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"),
+      preload: path.join(__dirname, "preloads/dashboardPreload.js"),
+      nodeIntegration: true,
+      
+    },
+  });
+
+  // this reset the local storage at window init
+  // TODO: a bit ugly, change this later
+  mainWindow.webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {
+    
+  })
+
+  ipcMain.on('attach-dashboard', event => {
+    //event.preventDefault();
+    // this is the function creating the new window
+    createDashboardWindow();
+  });
+
+  ipcMain.on('detach-dashboard', event => {
+    removeDashboardWindow();
+  })
+
+  
+
+  const appURL = app.isPackaged
+  ? url.format({
+      pathname: path.join(__dirname, "index.html"),
+      protocol: "file:",
+      slashes: true,
+    })
+  : "http://localhost:3000";
+  mainWindow.loadURL(appURL);
+
+  // Automatically open Chrome's DevTools in development mode.
+  if (!app.isPackaged) {
+    mainWindow.webContents.openDevTools();
+  }
+
+}
+
+// Create the native browser window.
+const createDashboardWindow = async () => {
+
+  const dashboardWindow = new BrowserWindow({
+    fullscreen: true,
+    // TODO remove comment while making this run as wallpaper
+    transparent: true,
+    frame: false,
+    skipTaskbar: true,
+    
+    // Set the path of an additional "preload" script that can be used to
+    // communicate between node-land and browser-land.
+    webPreferences: {
+      preload: path.join(__dirname, "preloads/dashboardPreload.js"),
       nodeIntegration: true
     },
   });
@@ -54,20 +106,30 @@ function createWindow(width, height) {
   // In development, set it to localhost to allow live/hot-reloading.
   const appURL = app.isPackaged
     ? url.format({
-        pathname: path.join(__dirname, "index.html"),
+        pathname: path.join(__dirname, "dashboard.html"),
         protocol: "file:",
         slashes: true,
       })
     : "http://localhost:3000";
-  mainWindow.loadURL(appURL);
+  dashboardWindow.loadURL(appURL);
 
   // Automatically open Chrome's DevTools in development mode.
   if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools();
+    dashboardWindow.webContents.openDevTools();
   }
   // TODO: uncomment this to allow the app to be attached as a wallpaper
-  //attach(mainWindow);
-  
+  attach(dashboardWindow);
+}
+
+const removeDashboardWindow = () => {
+  // getting all windows
+  const win = BrowserWindow.getAllWindows();
+
+  // removing 
+  win[1].webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {});
+  detach(win[0]);
+  win[0].close();
+  refresh();
 }
 
 // Setup a local proxy to adjust the paths of requested files when loading
@@ -89,27 +151,25 @@ function setupLocalFilesNormalizerProxy() {
 // is ready to create the browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-    const {width, height} = await getScreenDimensions();
-    console.log(width, height);
-    createWindow(width, height);
+    createMainWindow();
     setupLocalFilesNormalizerProxy();
 
     app.on("activate", function () {
         // On macOS it's common to re-create a window in the app when the
         // dock icon is clicked and there are no other windows open.
         if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow();      
+          createMainWindow();      
         }
-    });  
-});
+    });
 
-// Quit when all windows are closed, except on macOS.
-// There, it's common for applications and their menu bar to stay active until
-// the user quits  explicitly with Cmd + Q.
-app.on("window-all-closed", function () {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+    // Quit when all windows are closed, except on macOS.
+    // There, it's common for applications and their menu bar to stay active until
+    // the user quits  explicitly with Cmd + Q.
+    app.on("window-all-closed", function () {
+      if (process.platform !== "darwin") {
+        app.quit();
+      }
+    });
 });
 
 // If your app has no need to navigate or only needs to navigate to known pages,
@@ -128,15 +188,3 @@ app.on("web-contents-created", (event, contents) => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
-const getScreenDimensions = async () => {
-    const graphics = await si.graphics();
-    const width = graphics.displays[0].resolutionX;
-    const height = graphics.displays[0].resolutionY;
-
-    const dimensions = {
-        width,
-        height
-    }
-
-    return dimensions;
-}
