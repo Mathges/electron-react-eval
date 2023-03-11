@@ -1,32 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import HomeButton from '../HomeButton/HomeButton';
+import { Container } from './Style';
 
 const Home = () => {
-    const {attachDashboard, detachDashboard} = window.setters;
+  const { attachDashboard, detachDashboard } = window.setters;
 
-    return (
-      <>
-        { !localStorage.getItem('backgroundAttached') &&
-        <div class="setup-window">
-          <button onClick={() => {
-            localStorage.setItem('backgroundAttached', true);
-            attachDashboard();
-          }}>
-            attach dashboard
-          </button>
-          <button onClick={() => {
-            localStorage.removeItem('backgroundAttached');
-            detachDashboard()
-          }}>
-            detach dashboard
-          </button>
-          <button onClick={() => {
-            localStorage.removeItem('backgroundAttached');
-          }}>
-            quit app
-          </button>
-        </div>}
-      </>
-    );
+  const setDashboard = (event) => {
+    localStorage.setItem('backgroundAttached', true);
+    attachDashboard();
+  }
+
+  const unsetDashboard = () => {
+    localStorage.removeItem('backgroundAttached');
+    detachDashboard();
+  }
+
+  const quitApp = () => {
+    localStorage.removeItem('backgroundAttached');
+
+  }
+
+  return (
+    <>
+      {!localStorage.getItem('backgroundAttached') &&
+        <Container>
+          <HomeButton onClick={setDashboard} title="Set Dashboard" />
+          <HomeButton onClick={unsetDashboard} title="Unset Dashboard" />    
+          <HomeButton onClick={quitApp} title="Quit App" />
+        </Container>}
+    </>
+  );
 }
 
 export default Home;

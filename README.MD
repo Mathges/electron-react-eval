@@ -26,7 +26,8 @@ Plusieurs manières de display des metrics seront utilisées:
 Du fait du but de l'app, il n'y aura que peu d'interactions avec l'utilisateur.
 Cela dit l'utilisateur pourra:
 - changer de theme de couleur (couleurs basiques pour le moment)
-- choisir si l'app tourne à la place du fond d'écran ou au premier plan
+- choisir les metriques afficher en arrière plan
+- le tout par le biais d'une fenêtre 
 
 ## Roadmap
 
@@ -47,12 +48,12 @@ Cela dit l'utilisateur pourra:
     - [ ] disk-input-overtime
     - [ ] disk-output-overtime
     - [ ] disks-usage
-    - [ ] graphics-current-percentage
-    - [ ] graphics-overtime
 
 ### 2ème partie
 
-- [ ] Création des composants (graphiques, jauges...)
+- [x] Création des composants du POC (graphiques, jauges...)
+- [ ] Création de la fenêtre d'accueil
+- [x] Assemblage du dashboard
 
 ### 3ème partie
 
@@ -60,9 +61,10 @@ Cela dit l'utilisateur pourra:
 
 #### 4ème partie
 
-- [ ] mise en place de la possibilité de mettre en place l'app en "wallpaper"
+- [x] mise en place de la possibilité de mettre en place l'app en "wallpaper"
 
 ---
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

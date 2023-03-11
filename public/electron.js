@@ -12,6 +12,7 @@ const createMainWindow = () => {
     // transparent: true,
     // frame: false,
     //skipTaskbar: true,
+    icon: path.join(__dirname, 'logo.ico'),
   
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
@@ -24,19 +25,27 @@ const createMainWindow = () => {
 
   // this reset the local storage at window init
   // TODO: a bit ugly, change this later
-  mainWindow.webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {
-    
-  })
+  mainWindow.webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {})
 
   ipcMain.on('attach-dashboard', event => {
+    const win = BrowserWindow.getAllWindows();
+    if (win.length === 2) {
+      // prevent error if user click it with dashboard already being attached
+      return;
+    }
     //event.preventDefault();
     // this is the function creating the new window
     createDashboardWindow();
   });
 
   ipcMain.on('detach-dashboard', event => {
+    const win = BrowserWindow.getAllWindows();
+    if (win.length === 1) {
+      // prevent error if user click it without dashboard being attached
+      return;
+    } 
     removeDashboardWindow();
-  })
+  });
 
   
 
@@ -115,8 +124,9 @@ const createDashboardWindow = async () => {
 
   // Automatically open Chrome's DevTools in development mode.
   if (!app.isPackaged) {
-    dashboardWindow.webContents.openDevTools();
+    //dashboardWindow.webContents.openDevTools();
   }
+  
   // TODO: uncomment this to allow the app to be attached as a wallpaper
   attach(dashboardWindow);
 }
