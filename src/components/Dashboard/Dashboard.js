@@ -4,11 +4,14 @@ import OvertimeMetric from '../OvertimeMetric/OvertimeMetric';
 import { Container, SubContainer, SubSubContainer } from './Style';
 
 const Dashboard = () => {
+    const content = JSON.parse(localStorage.getItem('dashboardContent'));
+    
+    console.log('dashboardContent', content);
     return (
         <Container>
             <SubContainer>
                 <SubSubContainer>
-                    <SingleMetric metricType="cpu" metricUnit="percent" metricTitle="CPU - Usage" />
+                    { content && <SingleMetric metricType="cpu" metricUnit="percent" metricTitle="CPU - Usage" />}
                     <SingleMetric metricType="cpu" metricUnit="temperature" metricTitle="CPU - Temperature" />
                 </SubSubContainer>
                 <OvertimeMetric metricType="cpu" metricUnit="percent" metricTitle="CPU- Usage" />                

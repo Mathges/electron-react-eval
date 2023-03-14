@@ -1,13 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import HomeButton from '../HomeButton/HomeButton';
 import LabeledCheckbox from '../LabeledCheckbox/LabeledCheckbox';
-import { Container, LogoContainer, Logo, FormTitle, FormContainer } from './Style';
+import { Container, LogoContainer, Logo, FormTitle, FormContainer, StyledSubmit } from './Style';
 
 const Home = () => {
   const { attachDashboard, detachDashboard } = window.setters;
+  const [dashboardParams, setDashboardParams] = useState({});
 
-  const setDashboard = (event) => {
+  const setDashboard = event => {
+    event.preventDefault();
     localStorage.setItem('backgroundAttached', true);
+    localStorage.setItem('dashboardContent', JSON.stringify(dashboardParams));
     attachDashboard();
   }
 
@@ -28,20 +31,21 @@ const Home = () => {
           <LogoContainer>
             <Logo src='/logo.png' width={250} alt="App logo" />
           </LogoContainer>
-          <form>
-            <FormContainer  >
+          <form onSubmit={setDashboard}>
+            <FormContainer>
               <FormTitle>Turbopimp your TurboDashboard</FormTitle>
-              <LabeledCheckbox name="CPU - Percentage"/>
-              <LabeledCheckbox name="CPU - Temperature" />
-              <LabeledCheckbox name="CPU - Overtime" />
-              <LabeledCheckbox name="RAM - Percentage" />
-              <LabeledCheckbox name="RAM - Overtime" />
-            </FormContainer >
+              <LabeledCheckbox name="CPU - Percentage" state={dashboardParams} setState={setDashboardParams} />
+              <LabeledCheckbox name="CPU - Temperature" state={dashboardParams} setState={setDashboardParams} />
+              <LabeledCheckbox name="CPU - Overtime" state={dashboardParams} setState={setDashboardParams} />
+              <LabeledCheckbox name="RAM - Percentage" state={dashboardParams} setState={setDashboardParams} />
+              <LabeledCheckbox name="RAM - Overtime" state={dashboardParams} setState={setDashboardParams} />
+            </FormContainer>
+            <StyledSubmit value="Set Dashboard" type='submit' />  
           </form>
-          <HomeButton onClick={setDashboard} title="Set Dashboard" />
-          <HomeButton onClick={unsetDashboard} title="Unset Dashboard" />    
-          <HomeButton onClick={quitApp} title="Quit App" />
-        </Container>}
+          <HomeButton onClick={unsetDashboard} title="Unset Dashboard" type='button' />  
+          <HomeButton onClick={quitApp} title="Quit App" type='button' />
+        </Container>
+      }
     </>
   );
 }
