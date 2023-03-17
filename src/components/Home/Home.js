@@ -16,6 +16,7 @@ const Home = () => {
 
   const unsetDashboard = () => {
     localStorage.removeItem('backgroundAttached');
+    localStorage.removeItem('dashboardContent');
     detachDashboard();
   }
 
