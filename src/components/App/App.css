@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+  font-family: Signika;
+  background: url("/public/edge-touching-dark-abstract1.jpg") no-repeat fixed;
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: calc(10px + 2vmin);
+}
+
+.metric-container {
+  width: 80%;
+}
