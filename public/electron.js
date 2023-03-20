@@ -9,9 +9,12 @@ const createMainWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 600,
     height: 400,
-    // transparent: true,
+    //transparent: true,
     // frame: false,
-    //skipTaskbar: true,
+    // skipTaskbar: true,
+    // resizable: false,
+    // movable: true,
+    autoHideMenuBar: true,
     icon: path.join(__dirname, 'logo.ico'),
   
     // Set the path of an additional "preload" script that can be used to
@@ -64,7 +67,7 @@ const createMainWindow = () => {
 
   // Automatically open Chrome's DevTools in development mode.
   if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
   }
 
 }
@@ -141,6 +144,7 @@ const removeDashboardWindow = () => {
 
   // removing 
   win[1].webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {});
+  win[1].webContents.executeJavaScript("localStorage.removeItem('dashboardContent');", true).then((result) => {});
   detach(win[0]);
   win[0].close();
   refresh();

@@ -62,6 +62,7 @@ Cela dit l'utilisateur pourra:
 #### 4ème partie
 
 - [x] mise en place de la possibilité de mettre en place l'app en "wallpaper"
+- [x] l'utilisateur peut choisir les metrics a display
 
 ---
 
