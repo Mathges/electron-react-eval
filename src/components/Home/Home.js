@@ -4,7 +4,7 @@ import LabeledCheckbox from '../LabeledCheckbox/LabeledCheckbox';
 import { Container, LogoContainer, Logo, FormTitle, FormContainer, StyledSubmit } from './Style';
 
 const Home = () => {
-  const { attachDashboard, detachDashboard } = window.setters;
+  const { attachDashboard, detachDashboard, quitApp } = window.setters;
   const [dashboardParams, setDashboardParams] = useState({});
 
   const setDashboard = event => {
@@ -20,9 +20,10 @@ const Home = () => {
     detachDashboard();
   }
 
-  const quitApp = () => {
+  const closeApp = () => {
     localStorage.removeItem('backgroundAttached');
-
+    localStorage.removeItem('dashboardContent');
+    quitApp();
   }
 
   return (
@@ -44,7 +45,7 @@ const Home = () => {
             <StyledSubmit value="Set Dashboard" type='submit' />  
           </form>
           <HomeButton onClick={unsetDashboard} title="Unset Dashboard" type='button' />  
-          <HomeButton onClick={quitApp} title="Quit App" type='button' />
+          <HomeButton onClick={closeApp} title="Quit App" type='button' />
         </Container>
       }
     </>

@@ -52,7 +52,7 @@ Cela dit l'utilisateur pourra:
 ### 2ème partie
 
 - [x] Création des composants du POC (graphiques, jauges...)
-- [ ] Création de la fenêtre d'accueil
+- [x] Création de la fenêtre d'accueil
 - [x] Assemblage du dashboard
 
 ### 3ème partie

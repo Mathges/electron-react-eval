@@ -7,10 +7,13 @@ const { contextBridge, ipcRenderer } = require("electron");
 // They'll be accessible at "window.versions".
 process.once("loaded", () => {
   contextBridge.exposeInMainWorld("versions", process.versions);
+
   contextBridge.exposeInMainWorld("setters", {
     attachDashboard: () => ipcRenderer.send('attach-dashboard'),
     detachDashboard: () => ipcRenderer.send('detach-dashboard'),
+    quitApp: () => ipcRenderer.send('quit-app'),
   });
+
   contextBridge.exposeInMainWorld("metrics", {
     // CPU - percent
     requestCPUUsagePercent: () => ipcRenderer.send('get-cpu-percent'),
@@ -20,7 +23,6 @@ process.once("loaded", () => {
         setState(currentLoad);
       });
     },
-
     // CPU - temperature
     requestCPUTemperature: () => ipcRenderer.send('get-cpu-temperature'),
     getCPUTemperature: setState => {
@@ -34,7 +36,6 @@ process.once("loaded", () => {
         setState(currentTemperature);
       });
     },
-
     // RAM - percent
     requestRAMUsagePercent: () => ipcRenderer.send('get-ram-percent'),
     getRAMUsagePercent: setState => {
@@ -43,7 +44,6 @@ process.once("loaded", () => {
         setState(currentRAMUsage);
       });
     },
-    cleanMetrics: () => ipcRenderer.removeAllListeners('metrics')
-
-  })
+    cleanMetrics: () => ipcRenderer.removeAllListeners('metrics'),
+  });
 });

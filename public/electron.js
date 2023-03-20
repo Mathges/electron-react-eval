@@ -19,13 +19,13 @@ const createMainWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, "preloads/dashboardPreload.js"),
       nodeIntegration: true,
-      
     },
   });
 
   // this reset the local storage at window init
   // TODO: a bit ugly, change this later
-  mainWindow.webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {})
+  mainWindow.webContents.executeJavaScript("localStorage.removeItem('backgroundAttached');", true).then((result) => {});
+  mainWindow.webContents.executeJavaScript("localStorage.removeItem('dashboardContent');", true).then((result) => {});
 
   ipcMain.on('attach-dashboard', event => {
     const win = BrowserWindow.getAllWindows();
@@ -47,7 +47,11 @@ const createMainWindow = () => {
     removeDashboardWindow();
   });
 
-  
+  ipcMain.on('quit-app', event => {
+    if (process.platform !== "darwin") {
+      app.quit();
+    }
+  })
 
   const appURL = app.isPackaged
   ? url.format({
