@@ -59,10 +59,20 @@ Cela dit l'utilisateur pourra:
 
 - [ ] création de thèmes (2 ou 3 en POC)
 
-#### 4ème partie
+### 4ème partie
 
 - [x] mise en place de la possibilité de mettre en place l'app en "wallpaper"
 - [x] l'utilisateur peut choisir les metrics a display
+
+## Rendu
+
+La vidéo de rendu est disponible [ici](https://youtu.be/mnrE84-wnP0)
+
+## Notes
+
+Au cas ou je reprends le projet:
+- en cas de double screen, si la résolution est supérieure a 1920x1080, le dashboard ne prend pas tout l'écran
+- si le dashboard est set et que l'utilisateur modifie le form (clique sur un switch) l'appli plante
 
 ---
 
